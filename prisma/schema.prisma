@@ -1,0 +1,154 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model auth {
+  userId        Int
+  token         String    @id @default(dbgenerated("(uuid())")) @db.VarChar(256)
+  createdAt     DateTime  @default(dbgenerated("(curdate())")) @db.Date
+  isActive      Int       @default(1)
+  deactivatedAt DateTime? @db.Date
+  user          user      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "auth_ibfk_1")
+
+  @@index([userId], map: "userId")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model monthlyMovements {
+  id             Int          @id @default(autoincrement())
+  userId         Int
+  movementTypeId Int
+  amount         Decimal      @db.Decimal(10, 2)
+  description    String       @db.VarChar(256)
+  createdAt      DateTime     @default(dbgenerated("(curdate())")) @db.Date
+  updatedAt      DateTime?    @db.Date
+  isDeleted      Int          @default(0)
+  deletedAt      DateTime?    @db.Date
+  user           user         @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "monthlyMovements_ibfk_1")
+  movementType   movementType @relation(fields: [movementTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "monthlyMovements_ibfk_2")
+
+  @@index([movementTypeId], map: "movementTypeId")
+  @@index([userId], map: "userId")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model movement {
+  id             Int              @id @default(autoincrement())
+  userId         Int
+  movementTypeId Int
+  date           DateTime         @default(dbgenerated("(curdate())")) @db.Date
+  amount         Decimal          @db.Decimal(10, 2)
+  description    String           @db.VarChar(256)
+  createdAt      DateTime         @default(dbgenerated("(curdate())")) @db.Date
+  updatedAt      DateTime?        @db.Date
+  isDeleted      Int              @default(0)
+  deletedAt      DateTime?        @db.Date
+  user           user             @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "movement_ibfk_1")
+  movementType   movementType     @relation(fields: [movementTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "movement_ibfk_2")
+  savingMovement savingMovement[]
+
+  @@index([movementTypeId], map: "movementTypeId")
+  @@index([userId], map: "userId")
+}
+
+model movementCategory {
+  id           Int            @id @default(autoincrement())
+  label        String         @unique(map: "label") @db.VarChar(256)
+  value        String         @unique(map: "value") @db.VarChar(256)
+  bgColor      String         @db.VarChar(256)
+  color        String         @db.VarChar(256)
+  movementType movementType[]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model movementType {
+  id                                                Int                @id @default(autoincrement())
+  userId                                            Int
+  movementCategoryId                                Int
+  description                                       String?            @db.VarChar(256)
+  mainColor                                         String?            @db.VarChar(256)
+  createdAt                                         DateTime           @default(dbgenerated("(curdate())")) @db.Date
+  updatedAt                                         DateTime?          @db.Date
+  isDeleted                                         Int                @default(0)
+  deletedAt                                         DateTime?          @db.Date
+  monthlyMovements                                  monthlyMovements[]
+  movement                                          movement[]
+  user                                              user               @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "movementType_ibfk_1")
+  movementCategory                                  movementCategory   @relation(fields: [movementCategoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "movementType_ibfk_2")
+  saving_saving_incomeMovementTypeIdTomovementType  saving[]           @relation("saving_incomeMovementTypeIdTomovementType")
+  saving_saving_outcomeMovementTypeIdTomovementType saving[]           @relation("saving_outcomeMovementTypeIdTomovementType")
+
+  @@index([movementCategoryId], map: "movementCategoryId")
+  @@index([userId], map: "userId")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model saving {
+  id                                                      Int              @id @default(autoincrement())
+  userId                                                  Int
+  incomeMovementTypeId                                    Int
+  outcomeMovementTypeId                                   Int
+  description                                             String           @db.VarChar(256)
+  createdAt                                               DateTime         @default(dbgenerated("(curdate())")) @db.Date
+  updatedAt                                               DateTime?        @db.Date
+  isDeleted                                               Int              @default(0)
+  deletedAt                                               DateTime?        @db.Date
+  user                                                    user             @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "saving_ibfk_1")
+  movementType_saving_incomeMovementTypeIdTomovementType  movementType     @relation("saving_incomeMovementTypeIdTomovementType", fields: [incomeMovementTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "saving_ibfk_2")
+  movementType_saving_outcomeMovementTypeIdTomovementType movementType     @relation("saving_outcomeMovementTypeIdTomovementType", fields: [outcomeMovementTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "saving_ibfk_3")
+  savingMovement                                          savingMovement[]
+
+  @@index([incomeMovementTypeId], map: "incomeMovementTypeId")
+  @@index([outcomeMovementTypeId], map: "outcomeMovementTypeId")
+  @@index([userId], map: "userId")
+}
+
+model savingMovement {
+  savingId   Int
+  movementId Int
+  saving     saving   @relation(fields: [savingId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "savingMovement_ibfk_1")
+  movement   movement @relation(fields: [movementId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "savingMovement_ibfk_2")
+
+  @@id([savingId, movementId])
+  @@index([movementId], map: "movementId")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user {
+  id               Int                @id @default(autoincrement())
+  name             String             @db.VarChar(256)
+  birthDate        DateTime           @db.Date
+  profession       String?            @db.VarChar(256)
+  reason           String?            @db.VarChar(256)
+  state            String?            @db.VarChar(256)
+  createdAt        DateTime           @default(dbgenerated("(curdate())")) @db.Date
+  updatedAt        DateTime?          @db.Date
+  isDeleted        Int                @default(0)
+  deletedAt        DateTime?          @db.Date
+  auth             auth[]
+  monthlyMovements monthlyMovements[]
+  movement         movement[]
+  movementType     movementType[]
+  saving           saving[]
+  userPreferences  userPreferences?
+}
+
+model userPreferences {
+  userId Int  @id
+  user   user @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "userPreferences_ibfk_1")
+}
+
+model error {
+  id         Int     @id @default(autoincrement())
+  code       String  @db.VarChar(256)
+  message    String? @db.VarChar(256)
+  httpStatus Int
+}
