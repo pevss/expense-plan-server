@@ -1,4 +1,4 @@
-const prisma = require("../databaseConnection/prismaClient");
+const prisma = require("../plugins/prisma");
 
 const getError = async function (code) {
 	const {
@@ -6,12 +6,14 @@ const getError = async function (code) {
 		message,
 		httpStatus,
 	} = (await prisma.error.findFirst({ where: { code } })) ||
-	(await prisma.error.findFirst({ where: { code: "ERR_ERR_NOT_FOUND" } }));
+	(await prisma.error.findFirst({
+		where: { code: "ERR_ERR_NOT_FOUND" },
+	}));
 
 	return {
-		code: errorCode,
-		message,
-		httpStatus,
+		error: errorCode,
+		errorMessage: message,
+		status: httpStatus,
 	};
 };
 
