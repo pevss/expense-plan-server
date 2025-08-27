@@ -1,6 +1,6 @@
 const prisma = require("../plugins/prisma");
 
-const get = async function (userId) {
+const getUserHistoryDates = async function (userId) {
 	const currentDate = new Date();
 	const currentMonth = currentDate.getMonth();
 	const currentYear = currentDate.getFullYear();
@@ -34,4 +34,35 @@ const get = async function (userId) {
 	return historyDates;
 };
 
-module.exports = { get };
+const getUserOveralls = async function (userId) {
+	const movements = await prisma.movement.findMany({
+		where: {
+			userId,
+			isDeleted: 0,
+		},
+		include: {
+			movementType: true,
+		},
+	});
+
+	const userOveralls = movements.reduce(
+		(acc, movement) => {
+			const amount = Number.parseFloat(movement.amount);
+
+			if (movement.movementType.movementCategoryId === 1) {
+				acc.totalDeposited += amount;
+				acc.total += amount;
+			} else if (movement.movementType.movementCategoryId === 2) {
+				acc.totalWithdrew += amount;
+				acc.total -= amount;
+			}
+
+			return acc;
+		},
+		{ totalDeposited: 0, totalWithdrew: 0, total: 0 }
+	);
+
+	return userOveralls;
+};
+
+module.exports = { getUserHistoryDates, getUserOveralls };

@@ -1,8 +1,8 @@
 const { errorSchema } = require("../../../config");
 
 const schema = {
-	description: "Returns user's history dates",
-	tags: ["History"],
+	description: "Returns user's overalls",
+	tags: ["User"],
 	params: {
 		type: "object",
 		required: ["token"],
@@ -12,14 +12,12 @@ const schema = {
 	},
 	response: {
 		200: {
-			description: "User history",
-			type: "array",
-			items: {
-				type: "object",
-				properties: {
-					month: { type: "integer" },
-					year: { type: "integer" },
-				},
+			description: "User overalls",
+			type: "object",
+			properties: {
+				totalDeposited: { type: "number" },
+				totalWithdrew: { type: "number" },
+				total: { type: "number" },
 			},
 		},
 		404: errorSchema,

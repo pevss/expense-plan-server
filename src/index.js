@@ -47,12 +47,12 @@ fastify.addHook("preHandler", async (req, res) => {
 });
 
 //API Endpoints
-fastify.register(require("./routes/movementCategory/endpoints"), {
-	prefix: "/movementCategory",
+fastify.register(require("./routes/user/endpoints"), {
+	prefix: "/user",
 });
 
-fastify.register(require("./routes/history/endpoints"), {
-	prefix: "/history",
+fastify.register(require("./routes/movementCategory/endpoints"), {
+	prefix: "/movementCategory",
 });
 
 fastify.register(require("./routes/movementType/endpoints"), {
