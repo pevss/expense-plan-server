@@ -1,7 +1,7 @@
 {
 	"name": "expense-plan-server",
 	"version": "1.0.0",
-	"main": "./src/index.js",
+	"main": "./app/index.js",
 	"scripts": {
 		"dev": "nodemon index.js",
 		"start": "node index.js",

@@ -1,20 +1,20 @@
-const userSavingExistsPreHandler = require("../../hooks/userSavingExistsPreHandler");
-const userMovementTypeExistsPreHandler = require("../../hooks/userMovementTypeExistsPreHandler");
-const userMovementTypeBelongToSavingPreHandler = require("../../hooks/userMovementTypeBelongToSavingPreHandler");
+const userSavingExistsPreHandler = require("../../hooks/userSavingExistsPreHandler.js");
+const userMovementTypeExistsPreHandler = require("../../hooks/userMovementTypeExistsPreHandler.js");
+const userMovementTypeBelongToSavingPreHandler = require("../../hooks/userMovementTypeBelongToSavingPreHandler.js");
 const userMovementExistsPreHandler = require("../../hooks/userMovementExistsPreHandler.js");
 const userMovementBelongToSavingPreHandler = require("../../hooks/userMovementBelongToSavingPreHandler.js");
 
-const createSavingMovementHandler = require("./createSavingMovement/handler");
-const createSavingMovementSchema = require("./createSavingMovement/documentationSchema");
+const createSavingMovementHandler = require("./createSavingMovement/handler.js");
+const createSavingMovementSchema = require("./createSavingMovement/documentationSchema.js");
 
-const getSavingMovementsPerSavingHandler = require("./getSavingMovementsPerSaving/handler");
-const getSavingMovementsPerSavingSchema = require("./getSavingMovementsPerSaving/documentationSchema");
+const getSavingMovementsPerSavingHandler = require("./getSavingMovementsPerSaving/handler.js");
+const getSavingMovementsPerSavingSchema = require("./getSavingMovementsPerSaving/documentationSchema.js");
 
-const updateSavingMovementHandler = require("./updateSavingMovement/handler");
-const updateSavingMovementSchema = require("./updateSavingMovement/documentationSchema");
+const updateSavingMovementHandler = require("./updateSavingMovement/handler.js");
+const updateSavingMovementSchema = require("./updateSavingMovement/documentationSchema.js");
 
-const deleteSavingMovementHandler = require("./deleteSavingMovement/handler");
-const deleteSavingMovementSchema = require("./deleteSavingMovement/documentationSchema");
+const deleteSavingMovementHandler = require("./deleteSavingMovement/handler.js");
+const deleteSavingMovementSchema = require("./deleteSavingMovement/documentationSchema.js");
 
 const endpoints = function (fastify, _) {
 	fastify.put("/:token", {
