@@ -7,4 +7,6 @@ const errorSchema = {
 	},
 };
 
-module.exports = { errorSchema };
+const routesIgnoredByGlobalHooks = ["/docs", "/movementCategory", "/public"];
+
+module.exports = { errorSchema, routesIgnoredByGlobalHooks };

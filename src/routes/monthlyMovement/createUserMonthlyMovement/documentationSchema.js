@@ -25,26 +25,10 @@ const schema = {
 			description: "Created monthly movement",
 			type: "object",
 			properties: {
-				createdMonthlyMovement: {
-					type: "object",
-					properties: {
-						id: { type: "integer" },
-						movementTypeId: { type: "integer" },
-						amount: { type: "number" },
-						description: { type: "string" },
-					},
-				},
-				createdMovementType: {
-					type: "object",
-					properties: {
-						id: { type: "number" },
-						description: { type: "string" },
-						mainColor: { type: "string", description: "HEX Code" },
-						type: { type: "string" },
-						isDeleted: { type: "boolean" },
-						isCreatedBySystem: { type: "boolean" },
-					},
-				},
+				id: { type: "integer" },
+				movementTypeId: { type: "integer" },
+				amount: { type: "number" },
+				description: { type: "string" },
 			},
 		},
 		404: errorSchema,

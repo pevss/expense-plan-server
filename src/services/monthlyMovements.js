@@ -1,8 +1,14 @@
 const prisma = require("../plugins/prisma");
 
+const {
+	create: createMovementType,
+	softDelete: deleteMovementType,
+	update: updateMovementType,
+} = require("./movementType");
+
 const getOne = async function (userId, id) {
 	const monthlyMovement = await prisma.monthlyMovement.findFirst({
-		where: { userId, id, isDeleted: 0 }, // isDeleted might be a mistake...
+		where: { userId, id },
 		include: { movementType: true },
 	});
 
@@ -16,10 +22,19 @@ const getOne = async function (userId, id) {
 
 const create = async function ({
 	userId,
-	movementTypeId,
+	movementCategoryId,
 	amount,
 	description,
+	color,
 }) {
+	const { id: movementTypeId } = await createMovementType({
+		userId,
+		movementCategoryId,
+		description,
+		color,
+		isCreatedBySystem: 1,
+	});
+
 	const { id: createdMonthlyMovementId } =
 		await prisma.monthlyMovement.create({
 			data: {
@@ -54,7 +69,14 @@ const get = async function (userId) {
 	return userMonthlyMovements;
 };
 
-const update = async function ({ id, userId, amount, description }) {
+const update = async function ({
+	id,
+	userId,
+	movementCategoryId,
+	amount,
+	description,
+	color,
+}) {
 	const updatedMonthlyMovement = await prisma.monthlyMovement.update({
 		data: {
 			amount,
@@ -62,6 +84,15 @@ const update = async function ({ id, userId, amount, description }) {
 			updatedAt: new Date(),
 		},
 		where: { id, userId, isDeleted: 0 },
+	});
+
+	await updateMovementType({
+		id: updatedMonthlyMovement.movementTypeId,
+		userId,
+		color,
+		description,
+		movementCategoryId,
+		isUpdatedBySystem: 1,
 	});
 
 	return {
@@ -83,6 +114,8 @@ const softDelete = async function (id, userId) {
 			userId,
 		},
 	});
+
+	await deleteMovementType(deletedMonthlyMovement.movementTypeId, userId, 1);
 
 	return deletedMonthlyMovement;
 };

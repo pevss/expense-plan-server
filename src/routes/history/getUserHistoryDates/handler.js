@@ -2,17 +2,17 @@ const paramsValidatorSchema = require("./requestValidators/paramsSchema");
 
 const historyActions = require("../../../services/history");
 
-const validadeRequestSchema = require("../../../utils/validadeRequestSchema");
-const getUserIdFromToken = require("../../../utils/getUserIdFromToken");
+const validadeRequestSchema = require("../../../utils/validateRequestSchema");
 
 const getUserHistoryDates = async function (req, res) {
-	const { token } = await validadeRequestSchema(
-		paramsValidatorSchema,
-		req.params,
-		res
-	);
+	const { isValid: isParamsValid, error: invalidParamsError } =
+		await validadeRequestSchema(paramsValidatorSchema, req.params, res);
 
-	const { userId } = await getUserIdFromToken(token, res);
+	if (!isParamsValid) {
+		return res.status(invalidParamsError.status).send(invalidParamsError);
+	}
+
+	const { userId } = req;
 
 	const historyDates = await historyActions.get(userId);
 

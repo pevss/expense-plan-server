@@ -20,7 +20,7 @@ const schema = {
 			"color",
 		],
 		properties: {
-			id: { type: "number" },
+			monthlyMovementId: { type: "number" },
 			amount: { type: "number" },
 			movementCategoryId: { type: "number" },
 			description: { type: "string" },
@@ -29,30 +29,13 @@ const schema = {
 	},
 	response: {
 		200: {
-			description:
-				"Updated monthly movement and its respective movement type",
+			description: "Updated monthly movement",
 			type: "object",
 			properties: {
-				updatedMonthlyMovement: {
-					type: "object",
-					properties: {
-						id: { type: "number" },
-						movementTypeId: { type: "number" },
-						amount: { type: "number" },
-						description: { type: "string" },
-					},
-				},
-				updatedMovementType: {
-					type: "object",
-					properties: {
-						id: { type: "number" },
-						description: { type: "string" },
-						mainColor: { type: "string", description: "HEX Code" },
-						type: { type: "string" },
-						isDeleted: { type: "boolean" },
-						isCreatedBySystem: { type: "boolean" },
-					},
-				},
+				id: { type: "number" },
+				movementTypeId: { type: "number" },
+				amount: { type: "number" },
+				description: { type: "string" },
 			},
 		},
 		404: errorSchema,

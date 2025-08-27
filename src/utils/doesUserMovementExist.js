@@ -1,7 +1,12 @@
 const prisma = require("../plugins/prisma");
 const getError = require("./getError");
 
-const doesUserMovementExist = async function (userId, id, res) {
+const doesUserMovementExist = async function (userId, id) {
+	const existenceStatus = {
+		check: true,
+		error: null,
+	};
+
 	const userMovement = await prisma.movement.findFirst({
 		where: {
 			userId,
@@ -11,12 +16,11 @@ const doesUserMovementExist = async function (userId, id, res) {
 	});
 
 	if (userMovement === null) {
-		const error = await getError("ERR_MOVEMENT_NOT_FOUND");
-
-		res.status(error.status).send(error);
+		existenceStatus.check = false;
+		existenceStatus.error = await getError("ERR_MOVEMENT_NOT_FOUND");
 	}
 
-	return true;
+	return existenceStatus;
 };
 
 module.exports = doesUserMovementExist;

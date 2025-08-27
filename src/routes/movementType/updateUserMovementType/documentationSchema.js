@@ -12,9 +12,14 @@ const schema = {
 	},
 	body: {
 		type: "object",
-		required: ["id", "movementCategoryId", "description", "color"],
+		required: [
+			"movementTypeId",
+			"movementCategoryId",
+			"description",
+			"color",
+		],
 		properties: {
-			id: { type: "number" },
+			movementTypeId: { type: "number" },
 			movementCategoryId: { type: "number" },
 			description: { type: "string" },
 			color: { type: "string", description: "HEX Code" },

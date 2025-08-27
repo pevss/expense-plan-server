@@ -102,7 +102,7 @@ const update = async function ({
 	return await getOne(userId, id);
 };
 
-const softDelete = async function (id, userId) {
+const softDelete = async function (id, userId, isDeletedBySystem) {
 	const deletedMovementType = await prisma.movementType.update({
 		data: {
 			isDeleted: 1,
@@ -111,6 +111,7 @@ const softDelete = async function (id, userId) {
 		where: {
 			id,
 			userId,
+			isCreatedBySystem: isDeletedBySystem,
 		},
 	});
 

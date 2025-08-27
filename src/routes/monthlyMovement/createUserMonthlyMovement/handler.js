@@ -1,54 +1,39 @@
 const bodyValidatorSchema = require("./requestValidators/bodySchema");
 const paramsValidatorSchema = require("./requestValidators/paramsSchema");
 
-const monthlyMovementServices = require("../../../services/monthlyMovements");
-const movementTypeServices = require("../../../services/movementType");
+const { create } = require("../../../services/monthlyMovements");
 
-const doesMovementCategoryExist = require("../../../utils/doesMovementCategoryExist");
-const validadeRequestSchema = require("../../../utils/validadeRequestSchema");
-const getUserIdFromToken = require("../../../utils/getUserIdFromToken");
+const validadeRequestSchema = require("../../../utils/validateRequestSchema");
 
 const createUserMonthlyMovement = async function (req, res) {
-	const { token } = await validadeRequestSchema(
-		paramsValidatorSchema,
-		req.params,
-		res
-	);
+	const { isValid: isParamsValid, error: invalidParamsError } =
+		await validadeRequestSchema(paramsValidatorSchema, req.params);
 
-	const { amount, movementCategoryId, description, color } =
-		await validadeRequestSchema(bodyValidatorSchema, req.body, res);
+	if (!isParamsValid) {
+		return res.status(invalidParamsError.status).send(invalidParamsError);
+	}
 
-	const { userId } = await getUserIdFromToken(token, res);
+	const {
+		isValid: isBodyValid,
+		data: { amount, description, color } = {},
+		error: invalidBodyError,
+	} = await validadeRequestSchema(bodyValidatorSchema, req.body, res);
 
-	await doesMovementCategoryExist(movementCategoryId, res);
+	if (!isBodyValid) {
+		return res.status(invalidBodyError.status).send(invalidBodyError);
+	}
 
-	const monthlyMovementMovementTypeData = {
+	const { userId, movementCategoryId } = req;
+
+	const createdMonthlyMovement = await create({
 		userId,
 		movementCategoryId,
-		description,
-		color,
-		isCreatedBySystem: 1,
-	};
-
-	const createdMovementType = await movementTypeServices.create(
-		monthlyMovementMovementTypeData
-	);
-
-	const monthlyMovementData = {
-		userId,
-		movementTypeId: createdMovementType.id,
 		amount,
 		description,
-	};
-
-	const createdMonthlyMovement = await monthlyMovementServices.create(
-		monthlyMovementData
-	);
-
-	res.status(200).send({
-		createdMonthlyMovement,
-		createdMovementType,
+		color,
 	});
+
+	return res.status(200).send(createdMonthlyMovement);
 };
 
 module.exports = createUserMonthlyMovement;

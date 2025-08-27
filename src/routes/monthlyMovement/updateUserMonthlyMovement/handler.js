@@ -1,59 +1,39 @@
 const { update } = require("../../../services/monthlyMovements");
-//prettier-ignore
-const { update: updateMovementType } = require("../../../services/movementType");
-const doesMovementCategoryExist = require("../../../utils/doesMovementCategoryExist");
-const getError = require("../../../utils/getError");
-const getUserIdFromToken = require("../../../utils/getUserIdFromToken");
-const validadeRequestSchema = require("../../../utils/validadeRequestSchema");
+const validadeRequestSchema = require("../../../utils/validateRequestSchema");
 
 const bodySchema = require("./requestValidators/bodySchema");
 const paramsSchema = require("./requestValidators/paramsSchema");
 
 const updateUserMonthlyMovement = async function (req, res) {
-	const { token } = await validadeRequestSchema(
-		paramsSchema,
-		req.params,
-		res
-	);
+	const { isValid: isParamsValid, error: invalidParamsError } =
+		await validadeRequestSchema(paramsSchema, req.params, res);
 
-	const { userId } = await getUserIdFromToken(token);
+	if (!isParamsValid) {
+		return res.status(invalidParamsError.status).send(invalidParamsError);
+	}
 
 	const {
-		id: monthlyMovementId,
-		amount,
-		movementCategoryId,
-		description,
-		color,
+		isValid: isBodyValid,
+		data: { amount, description, color } = {},
+		error: invalidBodyError,
 	} = await validadeRequestSchema(bodySchema, req.body, res);
 
-	await doesMovementCategoryExist(movementCategoryId, res);
+	if (!isBodyValid) {
+		return res.status(invalidBodyError.status).send(invalidBodyError);
+	}
+
+	const { userId, monthlyMovementId, movementCategoryId } = req;
 
 	const updatedMonthlyMovement = await update({
 		id: monthlyMovementId,
 		userId,
+		movementCategoryId,
 		amount,
 		description,
-	});
-
-	const updatedMovementType = await updateMovementType({
-		id: updatedMonthlyMovement.movementTypeId,
-		userId,
-		movementCategoryId,
-		description,
 		color,
-		isUpdatedBySystem: true,
 	});
 
-	if (updatedMonthlyMovement === null || updatedMovementType === null) {
-		const error = await getError("ERR_NOT_FOUND"); //TODO: ERR
-
-		res.status(error.status).send(error);
-	}
-
-	res.status(200).send({
-		updatedMonthlyMovement,
-		updatedMovementType,
-	});
+	return res.status(200).send(updatedMonthlyMovement);
 };
 
 module.exports = updateUserMonthlyMovement;

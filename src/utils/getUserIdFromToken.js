@@ -2,7 +2,7 @@ const prisma = require("../plugins/prisma");
 
 const getError = require("./getError");
 
-const getUserIdFromToken = async function (token, res) {
+const getUserIdFromToken = async function (token) {
 	const user = await prisma.auth.findFirst({
 		where: {
 			token,
@@ -16,13 +16,18 @@ const getUserIdFromToken = async function (token, res) {
 		},
 	});
 
-	if (user === null) {
-		const error = await getError("ERR_UNAUTHORIZED");
+	const existenceStatus = {
+		isUserAuthenticated: true,
+		userId: user?.user?.id,
+		error: null,
+	};
 
-		return res.status(error.status).send(error);
+	if (user === null) {
+		existenceStatus.isUserAuthenticated = false;
+		existenceStatus.error = await getError("ERR_UNAUTHORIZED");
 	}
 
-	return { userId: user.userId };
+	return existenceStatus;
 };
 
 module.exports = getUserIdFromToken;

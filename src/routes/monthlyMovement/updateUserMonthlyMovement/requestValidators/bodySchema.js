@@ -8,7 +8,7 @@ const {
 } = require("../../../../validators/common");
 
 const schema = z.object({
-	id: idValidator,
+	monthlyMovementId: idValidator,
 	amount: amountValidator,
 	movementCategoryId: idValidator,
 	description: descriptionValidator,

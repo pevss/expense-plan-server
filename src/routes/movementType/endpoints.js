@@ -1,3 +1,6 @@
+const movementCategoryExistsPreHandler = require("../../hooks/movementCategoryExistsPreHandler");
+const userMovementTypeExistsPreHandler = require("../../hooks/userMovementTypeExistsPreHandler");
+
 const createUserMovementTypeSchema = require("./createUserMovementType/documentationSchema");
 const createUserMovementTypeHandler = require("./createUserMovementType/handler");
 
@@ -12,6 +15,7 @@ const deleteUserMovementTypesHandler = require("./deleteUserMovementType/handler
 
 const endpoins = function (fastify, _) {
 	fastify.put("/:token", {
+		preHandler: [movementCategoryExistsPreHandler],
 		schema: createUserMovementTypeSchema,
 		handler: createUserMovementTypeHandler,
 	});
@@ -22,11 +26,16 @@ const endpoins = function (fastify, _) {
 	});
 
 	fastify.patch("/:token", {
+		preHandler: [
+			movementCategoryExistsPreHandler,
+			userMovementTypeExistsPreHandler,
+		],
 		schema: updateUserMovementTypeSchema,
 		handler: updateUserMovementTypeHandler,
 	});
 
 	fastify.delete("/:token/:movementTypeId", {
+		preHandler: [userMovementTypeExistsPreHandler],
 		schema: deleteUserMovementTypeSchema,
 		handler: deleteUserMovementTypesHandler,
 	});

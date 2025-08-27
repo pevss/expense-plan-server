@@ -51,22 +51,22 @@ model movementCategory {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model movementType {
-  id                                                Int               @id @default(autoincrement())
-  userId                                            Int
-  movementCategoryId                                Int
-  description                                       String?           @db.VarChar(256)
-  mainColor                                         String?           @db.VarChar(256)
-  createdAt                                         DateTime          @default(dbgenerated("(curdate())")) @db.Date
-  updatedAt                                         DateTime?         @db.Date
-  isDeleted                                         Int               @default(0)
-  deletedAt                                         DateTime?         @db.Date
-  isCreatedBySystem                                 Int               @default(0)
-  monthlyMovement                                   monthlyMovement[]
-  movement                                          movement[]
-  user                                              user              @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "movementType_ibfk_1")
-  movementCategory                                  movementCategory  @relation(fields: [movementCategoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "movementType_ibfk_2")
-  saving_saving_incomeMovementTypeIdTomovementType  saving[]          @relation("saving_incomeMovementTypeIdTomovementType")
-  saving_saving_outcomeMovementTypeIdTomovementType saving[]          @relation("saving_outcomeMovementTypeIdTomovementType")
+  id                                                   Int               @id @default(autoincrement())
+  userId                                               Int
+  movementCategoryId                                   Int
+  description                                          String?           @db.VarChar(256)
+  mainColor                                            String?           @db.VarChar(256)
+  createdAt                                            DateTime          @default(dbgenerated("(curdate())")) @db.Date
+  updatedAt                                            DateTime?         @db.Date
+  isDeleted                                            Int               @default(0)
+  deletedAt                                            DateTime?         @db.Date
+  isCreatedBySystem                                    Int               @default(0)
+  monthlyMovement                                      monthlyMovement[]
+  movement                                             movement[]
+  user                                                 user              @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "movementType_ibfk_1")
+  movementCategory                                     movementCategory  @relation(fields: [movementCategoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "movementType_ibfk_2")
+  saving_saving_depositMovementTypeIdTomovementType    saving[]          @relation("saving_depositMovementTypeIdTomovementType")
+  saving_saving_withdrawalMovementTypeIdTomovementType saving[]          @relation("saving_withdrawalMovementTypeIdTomovementType")
 
   @@index([movementCategoryId], map: "movementCategoryId")
   @@index([userId], map: "userId")
@@ -74,22 +74,22 @@ model movementType {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model saving {
-  id                                                      Int              @id @default(autoincrement())
-  userId                                                  Int
-  incomeMovementTypeId                                    Int
-  outcomeMovementTypeId                                   Int
-  description                                             String           @db.VarChar(256)
-  createdAt                                               DateTime         @default(dbgenerated("(curdate())")) @db.Date
-  updatedAt                                               DateTime?        @db.Date
-  isDeleted                                               Int              @default(0)
-  deletedAt                                               DateTime?        @db.Date
-  user                                                    user             @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "saving_ibfk_1")
-  movementType_saving_incomeMovementTypeIdTomovementType  movementType     @relation("saving_incomeMovementTypeIdTomovementType", fields: [incomeMovementTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "saving_ibfk_2")
-  movementType_saving_outcomeMovementTypeIdTomovementType movementType     @relation("saving_outcomeMovementTypeIdTomovementType", fields: [outcomeMovementTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "saving_ibfk_3")
-  savingMovement                                          savingMovement[]
+  id                                                         Int              @id @default(autoincrement())
+  userId                                                     Int
+  depositMovementTypeId                                      Int
+  withdrawalMovementTypeId                                   Int
+  description                                                String           @db.VarChar(256)
+  createdAt                                                  DateTime         @default(dbgenerated("(curdate())")) @db.Date
+  updatedAt                                                  DateTime?        @db.Date
+  isDeleted                                                  Int              @default(0)
+  deletedAt                                                  DateTime?        @db.Date
+  user                                                       user             @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "saving_ibfk_1")
+  movementType_saving_depositMovementTypeIdTomovementType    movementType     @relation("saving_depositMovementTypeIdTomovementType", fields: [depositMovementTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "saving_ibfk_2")
+  movementType_saving_withdrawalMovementTypeIdTomovementType movementType     @relation("saving_withdrawalMovementTypeIdTomovementType", fields: [withdrawalMovementTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "saving_ibfk_3")
+  savingMovement                                             savingMovement[]
 
-  @@index([incomeMovementTypeId], map: "incomeMovementTypeId")
-  @@index([outcomeMovementTypeId], map: "outcomeMovementTypeId")
+  @@index([depositMovementTypeId], map: "incomeMovementTypeId")
+  @@index([withdrawalMovementTypeId], map: "outcomeMovementTypeId")
   @@index([userId], map: "userId")
 }
 

@@ -5,7 +5,6 @@ const getOne = async function (userId, id) {
 		where: {
 			id,
 			userId,
-			isDeleted: 0,
 		},
 	});
 
@@ -36,7 +35,7 @@ const create = async function ({
 		},
 	});
 
-	return createdMovement;
+	return await getOne(userId, createdMovement.id);
 };
 
 const getByDate = async function (userId, date) {
@@ -83,7 +82,7 @@ const update = async function ({
 		where: {
 			userId,
 			id,
-			isDeleted,
+			isDeleted: 0,
 		},
 	});
 
@@ -111,7 +110,15 @@ const softDelete = async function (userId, id) {
 		},
 	});
 
-	return deletedMovement;
+	const cleanDeletedMovement = {
+		id: deletedMovement.id,
+		movementTypeId: deletedMovement.movementTypeId,
+		date: deletedMovement.date,
+		amount: deletedMovement.amount,
+		description: deletedMovement.description,
+	};
+
+	return cleanDeletedMovement;
 };
 
 module.exports = { create, getByDate, getOne, update, softDelete };
