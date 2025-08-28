@@ -24,7 +24,7 @@ fastify.register(swagger, {
 			version: "1.0.0",
 		},
 		host: `${process.env.PUBLIC_URL}`,
-		schemes: ["http"],
+		schemes: [process.env.SCHEME],
 		consumes: ["application/json"],
 		produces: ["application/json"],
 	},
