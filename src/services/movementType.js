@@ -115,7 +115,7 @@ const softDelete = async function (id, userId, isDeletedBySystem) {
 		},
 	});
 
-	return deletedMovementType;
+	return await getOne(userId, deletedMovementType.id);
 };
 
 module.exports = { create, get, getOne, update, softDelete };

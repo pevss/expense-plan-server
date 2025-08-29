@@ -22,6 +22,7 @@ const schema = {
 					mainColor: { type: "string", description: "HEX Code" },
 					type: { type: "string" },
 					isCreatedBySystem: { type: "boolean" },
+					isDeleted: { type: "boolean" },
 				},
 			},
 		},
