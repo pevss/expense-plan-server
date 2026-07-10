@@ -12,7 +12,7 @@ const getOne = async function (userId, id) {
 		id: userMovementType.id,
 		description: userMovementType.description,
 		mainColor: userMovementType.mainColor,
-		type: userMovementType.movementCategoryId,
+		movementCategoryId: userMovementType.movementCategoryId,
 		isDeleted: !!userMovementType.isDeleted,
 		isCreatedBySystem: !!userMovementType.isCreatedBySystem,
 	};
@@ -61,7 +61,7 @@ const get = async function (userId) {
 			id: movementType.id,
 			description: movementType.description,
 			mainColor: movementType.mainColor,
-			type: movementType.movementCategoryId,
+			movementCategoryId: movementType.movementCategoryId,
 			isDeleted: !!movementType.isDeleted,
 			isCreatedBySystem: !!movementType.isCreatedBySystem,
 		};
