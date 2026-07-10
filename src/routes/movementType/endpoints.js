@@ -14,7 +14,7 @@ const deleteUserMovementTypeSchema = require("./deleteUserMovementType/documenta
 const deleteUserMovementTypesHandler = require("./deleteUserMovementType/handler");
 
 const endpoins = function (fastify, _) {
-	fastify.put("/:token", {
+	fastify.post("/:token", {
 		preHandler: [movementCategoryExistsPreHandler],
 		schema: createUserMovementTypeSchema,
 		handler: createUserMovementTypeHandler,

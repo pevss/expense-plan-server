@@ -14,7 +14,7 @@ const deleteUserMonthlyMovementSchema = require("./deleteUserMonthlyMovement/doc
 const deleteUserMonthlyMovementHandler = require("./deleteUserMonthlyMovement/handler");
 
 const endpoints = function (fastify, _) {
-	fastify.put("/:token", {
+	fastify.post("/:token", {
 		preHandler: [movementCategoryExistsPreHandler],
 		schema: createUserMonthlyMovementSchema,
 		handler: createUserMonthlyMovementHandler,

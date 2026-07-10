@@ -24,7 +24,7 @@ const create = async function ({
 	userId,
 	movementCategoryId,
 	description,
-	color,
+	mainColor,
 	isCreatedBySystem = 0,
 }) {
 	const { id: createdMovementTypeId } = await prisma.movementType.create({
@@ -32,7 +32,7 @@ const create = async function ({
 			userId,
 			movementCategoryId,
 			description,
-			mainColor: color,
+			mainColor,
 			isCreatedBySystem,
 		},
 	});
@@ -75,14 +75,14 @@ const update = async function ({
 	userId,
 	movementCategoryId,
 	description,
-	color,
+	mainColor,
 	isUpdatedBySystem,
 }) {
 	await prisma.movementType.update({
 		data: {
 			movementCategoryId,
 			description,
-			mainColor: color,
+			mainColor,
 			updatedAt: new Date(),
 		},
 		where: {

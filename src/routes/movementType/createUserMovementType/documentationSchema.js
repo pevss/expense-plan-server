@@ -12,11 +12,11 @@ const schema = {
 	},
 	body: {
 		type: "object",
-		required: ["movementCategoryId", "description", "color"],
+		required: ["movementCategoryId", "description", "mainColor"],
 		properties: {
 			movementCategoryId: { type: "number" },
 			description: { type: "string" },
-			color: { type: "string", description: "HEX Code" },
+			mainColor: { type: "string", description: "HEX Code" },
 		},
 	},
 	response: {

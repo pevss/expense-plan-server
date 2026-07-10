@@ -14,7 +14,7 @@ const createUserMovementType = async function (req, res) {
 
 	const {
 		isValid: isBodyValid,
-		data: { description, color } = {},
+		data: { description, mainColor } = {},
 		error: invalidBodyError,
 	} = await validadeRequestSchema(bodyValidatorSchema, req.body, res);
 
@@ -30,7 +30,7 @@ const createUserMovementType = async function (req, res) {
 		userId,
 		movementCategoryId,
 		description,
-		color,
+		mainColor,
 		isCreatedBySystem: 0,
 	});
 

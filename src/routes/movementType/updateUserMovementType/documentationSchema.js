@@ -16,13 +16,13 @@ const schema = {
 			"movementTypeId",
 			"movementCategoryId",
 			"description",
-			"color",
+			"mainColor",
 		],
 		properties: {
 			movementTypeId: { type: "number" },
 			movementCategoryId: { type: "number" },
 			description: { type: "string" },
-			color: { type: "string", description: "HEX Code" },
+			mainColor: { type: "string", description: "HEX Code" },
 		},
 	},
 	response: {

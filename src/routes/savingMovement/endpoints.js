@@ -17,7 +17,7 @@ const deleteSavingMovementHandler = require("./deleteSavingMovement/handler.js")
 const deleteSavingMovementSchema = require("./deleteSavingMovement/documentationSchema.js");
 
 const endpoints = function (fastify, _) {
-	fastify.put("/:token", {
+	fastify.post("/:token", {
 		preHandler: [
 			userSavingExistsPreHandler,
 			userMovementTypeExistsPreHandler,

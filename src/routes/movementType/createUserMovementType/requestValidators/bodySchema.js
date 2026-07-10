@@ -9,7 +9,7 @@ const {
 const schema = z.object({
 	movementCategoryId: idValidator,
 	description: descriptionValidator,
-	color: colorValidator,
+	mainColor: colorValidator,
 });
 
 module.exports = schema;

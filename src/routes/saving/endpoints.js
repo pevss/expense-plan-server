@@ -13,7 +13,7 @@ const deleteUserSavingHandler = require("./deleteUserSaving/handler");
 const deleteUserSavingSchema = require("./deleteUserSaving/documentationSchema");
 
 const endpoints = function (fastify, _) {
-	fastify.put("/:token", {
+	fastify.post("/:token", {
 		handler: createUserSavingHandler,
 		schema: createUserSavingSchema,
 	});

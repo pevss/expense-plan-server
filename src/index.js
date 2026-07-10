@@ -14,7 +14,7 @@ const fastify = Fastify();
 // API Setup
 fastify.register(cors, {
 	origin: true,
-	methods: ["GET", "PUT", "PATCH", "DELETE", "OPTIONS"],
+	methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 });
 
 fastify.register(swagger, {
