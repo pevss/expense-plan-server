@@ -20,7 +20,7 @@ const schema = {
 					id: { type: "number" },
 					description: { type: "string" },
 					mainColor: { type: "string", description: "HEX Code" },
-					type: { type: "string" },
+					movementCategoryId: { type: "number" },
 					isCreatedBySystem: { type: "boolean" },
 					isDeleted: { type: "boolean" },
 				},

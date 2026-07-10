@@ -6,16 +6,13 @@ const getOne = async function (userId, id) {
 			id,
 			userId,
 		},
-		include: {
-			movementCategory: true,
-		},
 	});
 
 	const cleanUserMovementType = {
 		id: userMovementType.id,
 		description: userMovementType.description,
 		mainColor: userMovementType.mainColor,
-		type: userMovementType.movementCategory.value,
+		type: userMovementType.movementCategoryId,
 		isDeleted: !!userMovementType.isDeleted,
 		isCreatedBySystem: !!userMovementType.isCreatedBySystem,
 	};
@@ -46,7 +43,7 @@ const create = async function ({
 		id: createdMovementType.id,
 		description: createdMovementType.description,
 		mainColor: createdMovementType.mainColor,
-		type: createdMovementType.type,
+		movementCategoryId: createdMovementType.movementCategoryId,
 		isDeleted: !!createdMovementType.isDeleted,
 		isCreatedBySystem: createdMovementType.isCreatedBySystem,
 	};
@@ -57,9 +54,6 @@ const get = async function (userId) {
 		where: {
 			userId,
 		},
-		include: {
-			movementCategory: true,
-		},
 	});
 
 	const cleanUserMovementTypes = userMovementTypes.map((movementType) => {
@@ -67,7 +61,7 @@ const get = async function (userId) {
 			id: movementType.id,
 			description: movementType.description,
 			mainColor: movementType.mainColor,
-			type: movementType.movementCategory.value,
+			type: movementType.movementCategoryId,
 			isDeleted: !!movementType.isDeleted,
 			isCreatedBySystem: !!movementType.isCreatedBySystem,
 		};
