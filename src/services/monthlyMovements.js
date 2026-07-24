@@ -31,7 +31,7 @@ const create = async function ({
 		userId,
 		movementCategoryId,
 		description,
-		color,
+		mainColor: color,
 		isCreatedBySystem: 1,
 	});
 
@@ -89,7 +89,7 @@ const update = async function ({
 	await updateMovementType({
 		id: updatedMonthlyMovement.movementTypeId,
 		userId,
-		color,
+		mainColor: color,
 		description,
 		movementCategoryId,
 		isUpdatedBySystem: 1,
