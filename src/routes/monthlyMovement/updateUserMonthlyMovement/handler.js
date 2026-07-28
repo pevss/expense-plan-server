@@ -1,4 +1,7 @@
 const { update } = require("../../../services/monthlyMovements");
+const {
+	getOne: getOneMovementType,
+} = require("../../../services/movementType");
 const validadeRequestSchema = require("../../../utils/validateRequestSchema");
 
 const bodySchema = require("./requestValidators/bodySchema");
@@ -33,7 +36,17 @@ const updateUserMonthlyMovement = async function (req, res) {
 		color,
 	});
 
-	return res.status(200).send(updatedMonthlyMovement);
+	const updatedMovementType = await getOneMovementType(
+		userId,
+		updatedMonthlyMovement.movementTypeId,
+	);
+
+	const responseBody = {
+		monthlyMovement: updatedMonthlyMovement,
+		movementType: updatedMovementType,
+	};
+
+	return res.status(200).send(responseBody);
 };
 
 module.exports = updateUserMonthlyMovement;

@@ -22,10 +22,13 @@ const colorValidator = z
 		message: "ERR_INVALID_COLOR",
 	});
 
+const booleanValidator = z.boolean({ message: "ERR_INVALID_BOOLEAN" });
+
 module.exports = {
 	authTokenValidator,
 	idValidator,
 	amountValidator,
 	descriptionValidator,
 	colorValidator,
+	booleanValidator,
 };

@@ -14,7 +14,7 @@ const updateUserMovementType = async function (req, res) {
 
 	const {
 		isValid: isBodyValid,
-		data: { description, mainColor } = {},
+		data: { description, mainColor, isUpdatedBySystem } = {},
 		error: invalidBodyError,
 	} = await validadeRequestSchema(bodyValidatorSchema, req.body, res);
 
@@ -30,7 +30,7 @@ const updateUserMovementType = async function (req, res) {
 		mainColor,
 		description,
 		movementCategoryId,
-		isUpdatedBySystem: 0,
+		isUpdatedBySystem,
 	});
 
 	return res.status(200).send(updatedMovementType);

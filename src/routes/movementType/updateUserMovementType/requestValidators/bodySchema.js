@@ -4,6 +4,7 @@ const {
 	idValidator,
 	descriptionValidator,
 	colorValidator,
+	booleanValidator,
 } = require("../../../../validators/common");
 
 const schema = z.object({
@@ -11,6 +12,7 @@ const schema = z.object({
 	movementCategoryId: idValidator,
 	description: descriptionValidator,
 	mainColor: colorValidator,
+	isUpdatedBySystem: booleanValidator,
 });
 
 module.exports = schema;

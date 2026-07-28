@@ -2,6 +2,9 @@ const bodyValidatorSchema = require("./requestValidators/bodySchema");
 const paramsValidatorSchema = require("./requestValidators/paramsSchema");
 
 const { create } = require("../../../services/monthlyMovements");
+const {
+	getOne: getOneMovementType,
+} = require("../../../services/movementType");
 
 const validadeRequestSchema = require("../../../utils/validateRequestSchema");
 
@@ -33,7 +36,18 @@ const createUserMonthlyMovement = async function (req, res) {
 		color,
 	});
 
-	return res.status(200).send(createdMonthlyMovement);
+	const createdMovementType = await getOneMovementType(
+		userId,
+		createdMonthlyMovement.movementTypeId,
+	);
+
+	const responseBody = {
+		monthlyMovement: createdMonthlyMovement,
+		movementType: createdMovementType,
+	};
+
+	// TODO: enviar o monthlymovement criado e o movementtype tambem
+	return res.status(200).send(responseBody);
 };
 
 module.exports = createUserMonthlyMovement;
