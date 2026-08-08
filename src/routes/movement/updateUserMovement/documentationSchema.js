@@ -25,7 +25,7 @@ const schema = {
 			description: "Updated movement",
 			type: "object",
 			properties: {
-				movementId: { type: "number" },
+				id: { type: "number" },
 				movementTypeId: { type: "number" },
 				date: { type: "string", format: "date" },
 				amount: { type: "number" },
