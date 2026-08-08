@@ -14,7 +14,11 @@ const updateUserMovementType = async function (req, res) {
 
 	const {
 		isValid: isBodyValid,
-		data: { description, mainColor, isUpdatedBySystem } = {},
+		data: {
+			description,
+			mainColor,
+			isUpdatedBySystem: isUpdatedBySystemBool,
+		} = {},
 		error: invalidBodyError,
 	} = await validadeRequestSchema(bodyValidatorSchema, req.body, res);
 
@@ -23,6 +27,7 @@ const updateUserMovementType = async function (req, res) {
 	}
 
 	const { userId, movementCategoryId, movementTypeId } = req;
+	const isUpdatedBySystem = isUpdatedBySystemBool ? 1 : 0;
 
 	const updatedMovementType = await update({
 		id: movementTypeId,

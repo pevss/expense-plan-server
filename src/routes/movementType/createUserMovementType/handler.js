@@ -22,8 +22,6 @@ const createUserMovementType = async function (req, res) {
 		return res.status(invalidBodyError).send(invalidBodyError);
 	}
 
-	console.table(req);
-
 	const { userId, movementCategoryId } = req;
 
 	const createdMovementType = await create({

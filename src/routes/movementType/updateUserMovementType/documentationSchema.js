@@ -23,6 +23,7 @@ const schema = {
 			movementCategoryId: { type: "number" },
 			description: { type: "string" },
 			mainColor: { type: "string", description: "HEX Code" },
+			isUpdatedBySystem: { type: "boolean" },
 		},
 	},
 	response: {
