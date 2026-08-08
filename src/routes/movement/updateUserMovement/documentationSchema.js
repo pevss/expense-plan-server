@@ -14,7 +14,7 @@ const schema = {
 		type: "object",
 		required: ["movementTypeId", "amount", "description"],
 		properties: {
-			id: { type: "number" },
+			movementId: { type: "number" },
 			movementTypeId: { type: "number" },
 			amount: { type: "number" },
 			description: { type: "string" },
