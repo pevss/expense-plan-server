@@ -28,7 +28,6 @@ const endpoints = async function (fastify, _) {
 
 	fastify.patch("/:token", {
 		preHandler: [
-			userMovementTypeExistsPreHandler,
 			userMovementExistsPreHandler,
 			isUserMovementInRangePreHandler,
 		],
